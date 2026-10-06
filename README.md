@@ -51,3 +51,12 @@ python -m unittest discover tests
 ## Licencia
 
 Pendiente.
+
+
+## De tu mensaje inicial quedan pendientes estos puntos de diseño:
+
+Reanudable: si un correo ya está en disco, se salta. Con 27 cuentas es el más valioso, porque si algo se corta a mitad de camino no vuelves a descargar todo.
+Fecha de la carpeta: que la fecha de modificación coincida con la llegada del correo, como pediste al principio.
+Log en archivo: que los errores queden escritos en un archivo y no solo en pantalla.
+Opciones del .env: CARPETAS y EXTRAER_ADJUNTOS existen, pero el código todavía no las usa.
+Dejarlo listo para GitHub: prueba.py pasa a main.py, actualizar README y .env.example, y sacar IMAP_USUARIO e IMAP_CLAVE del .env.
