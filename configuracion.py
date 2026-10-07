@@ -24,6 +24,8 @@ class Configuracion:
             valores[nombre] = valor
 
         self.host = valores["IMAP_HOST"]
+        self.extraer_adjuntos = valores["EXTRAER_ADJUNTOS"].lower() == "si"
         self.puerto = int(valores["IMAP_PUERTO"])
         self.destino = Path(valores["DESTINO"])
         self.ruta_cuentas = Path(valores["CUENTAS_CSV"])
+        

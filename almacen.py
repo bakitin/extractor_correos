@@ -1,6 +1,6 @@
 """Almacen: nombres de carpeta seguros para Windows y escritura a disco."""
 import time
-from pathlib import Path
+import os
 class Almacen:
     def __init__(self, destino):                                   # guarda la carpeta raíz (Path)
         self.destino = destino
@@ -60,6 +60,12 @@ class Almacen:
 
         #-------------------------------------
 
+        segundos = time.mktime(fecha)
+
+        os.utime(ruta_carpeta_correo, (segundos, segundos))
+
+        #-------------------------------------
+
         return fecha_texto , nombre_archivo, nombre_carpeta_buzon
 
     def _nombre_seguro(self, asunto):
@@ -70,14 +76,13 @@ class Almacen:
                 asunto = asunto.replace(caracter, "-")
             return asunto
 
-    # def existe(self, cuenta, carpeta, uid):
-    #     ruta = Path(f"D:/Backup/Correos/{cuenta}/{carpeta}")
-    #     archivos = list(ruta.glob(f"*_{uid}_*/{uid}.eml"))
 
+    def existe(self, cuenta, carpeta, uid):
 
-    #     for archivo in archivos :
-    #         print("Archivo: ",archivo)
-    #         if archivo:
-    #             return print(True)
-    #         else:
-    #             return print(False)
+        nombre_carpeta_buzon = carpeta.strip('"')
+
+        ruta = self.destino/cuenta/nombre_carpeta_buzon
+
+        archivos = list(ruta.glob(f"*_uid{uid}_*/{uid}.eml"))
+
+        return bool(archivos)
