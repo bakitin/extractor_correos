@@ -4,6 +4,7 @@ import os
 class Almacen:
     def __init__(self, destino):                                   # guarda la carpeta raíz (Path)
         self.destino = destino
+        self.nombres_reservados_windows = ["CON","PRN","AUX","NUL","COM1","COM2","COM3","COM4","COM5","COM6","COM7","COM8","COM9","LPT1","LPT2","LPT3","LPT4","LPT5","LPT6","LPT7","LPT8","LPT9"]
 
     def guardar_eml(self, cuenta, carpeta, uid, contenido, fecha, asunto, cuerpo, adjuntos):        # devuelve la ruta del archivo guardado
 
@@ -15,7 +16,7 @@ class Almacen:
 
         nombre_carpeta_buzon = carpeta.strip('"')
 
-        ruta_carpeta_buzon = self.destino/cuenta/nombre_carpeta_buzon
+        ruta_carpeta_buzon = self.destino/self._nombre_windows(cuenta)/nombre_carpeta_buzon
 
         ruta_carpeta_buzon.mkdir(parents=True, exist_ok=True)
 
@@ -23,7 +24,7 @@ class Almacen:
 
         nombre_carpeta_correo = f"{fecha_texto}_uid{uid}_{asunto_seguro}"
 
-        ruta_carpeta_correo = self.destino/cuenta/nombre_carpeta_buzon/nombre_carpeta_correo
+        ruta_carpeta_correo = self.destino/self._nombre_windows(cuenta)/nombre_carpeta_buzon/nombre_carpeta_correo
 
         ruta_carpeta_correo.mkdir(parents=True, exist_ok=True)
 
@@ -52,7 +53,7 @@ class Almacen:
 
             nombre_carpeta_adjuntos = "Adjuntos"
                         
-            ruta_carpeta_adjuntos = self.destino/cuenta/nombre_carpeta_buzon/nombre_carpeta_correo/nombre_carpeta_adjuntos
+            ruta_carpeta_adjuntos = self.destino/self._nombre_windows(cuenta)/nombre_carpeta_buzon/nombre_carpeta_correo/nombre_carpeta_adjuntos
     
             ruta_carpeta_adjuntos.mkdir(parents=True, exist_ok=True)
 
@@ -81,8 +82,14 @@ class Almacen:
 
         nombre_carpeta_buzon = carpeta.strip('"')
 
-        ruta = self.destino/cuenta/nombre_carpeta_buzon
+        ruta = self.destino/self._nombre_windows(cuenta)/nombre_carpeta_buzon
 
         archivos = list(ruta.glob(f"*_uid{uid}_*/{uid}.eml"))
 
         return bool(archivos)
+
+    def _nombre_windows(self, nombre):
+        if nombre.split(".")[0].upper() in self.nombres_reservados_windows :
+            return "_"+nombre
+        else:
+            return nombre

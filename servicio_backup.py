@@ -25,7 +25,7 @@ class ServicioBackup:
 
         carpetas = self.cliente.listar_carpetas()
 
-        logging.info("Se inicia proceso de verificacion de correos, espere...")
+        logging.info("Se inicia backup de correos, espere... Esto tomara tiempo.")
         for carpeta in carpetas:
             uids = self.cliente.listar_uids(carpeta)
             
